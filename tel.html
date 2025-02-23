@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détection d'appareil</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .device-info {
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bienvenue sur notre site</h1>
+    <p class="device-info" id="device-info">Chargement des informations de l'appareil...</p>
+
+    <script>
+        // Fonction pour détecter le type d'appareil
+        function detectDevice() {
+            var userAgent = navigator.userAgent.toLowerCase();
+            var deviceInfo = "Votre appareil n'a pas pu être détecté.";
+
+            if (/iphone|ipod/.test(userAgent)) {
+                deviceInfo = "Vous utilisez un iPhone ou un iPod.";
+            } else if (/android/.test(userAgent)) {
+                deviceInfo = "Vous utilisez un appareil Android.";
+            } else if (/windows phone/.test(userAgent)) {
+                deviceInfo = "Vous utilisez un appareil Windows Phone.";
+            } else if (/tablet|ipad|playbook/.test(userAgent)) {
+                deviceInfo = "Vous utilisez une tablette.";
+            } else if (/desktop|mac|win|linux/.test(userAgent)) {
+                deviceInfo = "Vous utilisez un ordinateur de bureau ou portable.";
+            }
+
+            return deviceInfo;
+        }
+
+        // Afficher le type d'appareil
+        document.getElementById("device-info").innerText = detectDevice();
+    </script>
+</body>
+</html>
