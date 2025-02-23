@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localisation en temps réel</title>
+</head>
+<body>
+    <h1>Localisation de l'utilisateur</h1>
+    <div id="localisation">En attente de la géolocalisation...</div>
+
+    <script>
+        // Fonction pour afficher la localisation
+        function showPosition(position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+
+            // Affiche la localisation dans la page
+            document.getElementById("localisation").innerHTML = `Latitude: ${latitude} <br> Longitude: ${longitude}`;
+        }
+
+        // Fonction pour gérer les erreurs de localisation
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById("localisation").innerHTML = "L'utilisateur a refusé la demande de géolocalisation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById("localisation").innerHTML = "Les informations de géolocalisation sont indisponibles.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById("localisation").innerHTML = "Le délai de la demande a expiré.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById("localisation").innerHTML = "Une erreur inconnue est survenue.";
+                    break;
+            }
+        }
+
+        // Vérifier si le navigateur prend en charge la géolocalisation
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            document.getElementById("localisation").innerHTML = "La géolocalisation n'est pas supportée par votre navigateur.";
+        }
+    </script>
+</body>
+</html>
