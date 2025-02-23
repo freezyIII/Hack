@@ -42,23 +42,35 @@
             let deviceModel = "Inconnu";
             let deviceVersion = "Inconnu";
             
-            // Exemple de détection pour un iPhone
+            // Détection du type de téléphone et version
             if (userAgent.includes("iPhone")) {
                 deviceType = "iPhone";
                 const match = userAgent.match(/iPhone OS (\d+)_/);
                 if (match) {
                     deviceVersion = "iOS " + match[1];
                 }
+                // Exemple de modèle basé sur le userAgent
+                if (userAgent.includes("iPhone 12")) {
+                    deviceModel = "iPhone 12";
+                } else if (userAgent.includes("iPhone 13")) {
+                    deviceModel = "iPhone 13";
+                }
             } 
-            // Exemple pour Android
+            // Détection pour Android
             else if (userAgent.includes("Android")) {
                 deviceType = "Android";
                 const match = userAgent.match(/Android (\d+\.\d+)/);
                 if (match) {
                     deviceVersion = "Android " + match[1];
                 }
+                // Tentatives d'ajouter un modèle spécifique pour certains appareils Android
+                if (userAgent.includes("Pixel")) {
+                    deviceModel = "Google Pixel";
+                } else if (userAgent.includes("Samsung")) {
+                    deviceModel = "Samsung Galaxy";
+                }
             }
-            
+
             // Mise à jour des informations sur la page
             document.getElementById("device-type").innerText = deviceType;
             document.getElementById("device-model").innerText = deviceModel;
