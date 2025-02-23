@@ -3,44 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détection d'appareil mobile</title>
+    <title>Informations Téléphone</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            padding: 20px;
+            margin: 20px;
         }
-        .device-info {
-            font-size: 1.2em;
-            color: #333;
+        .info {
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
-    <h1>Bienvenue sur notre site</h1>
-    <p class="device-info" id="device-info">Chargement des informations de l'appareil...</p>
 
-    <!-- Inclusion du script via CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/device-detector-js@2.2.22/device-detector.min.js"></script>
-    
+    <h1>Informations sur votre téléphone</h1>
+
+    <div id="info-container">
+        <div class="info"><strong>Modèle de l'appareil:</strong> <span id="deviceModel"></span></div>
+        <div class="info"><strong>Système d'exploitation:</strong> <span id="os"></span></div>
+        <div class="info"><strong>Type de périphérique:</strong> <span id="deviceType"></span></div>
+        <div class="info"><strong>Largeur de l'écran:</strong> <span id="screenWidth"></span> px</div>
+        <div class="info"><strong>Hauteur de l'écran:</strong> <span id="screenHeight"></span> px</div>
+    </div>
+
     <script>
-        // On vérifie si la bibliothèque est bien chargée avant d'exécuter la détection
-        if (typeof DeviceDetector !== 'undefined') {
-            var detector = new DeviceDetector();
-            var userAgent = navigator.userAgent;
-            var device = detector.parse(userAgent);
+        // Fonction pour obtenir le modèle d'appareil (limité selon le navigateur)
+        function getDeviceInfo() {
+            var deviceModel = navigator.userAgent;
+            var os = navigator.platform;
+            var deviceType = (navigator.userAgent.indexOf("Mobile") !== -1) ? "Mobile" : "Desktop";
 
-            // Vérification de la disponibilité des informations sur le modèle et le type de l'appareil
-            var deviceInfo = "Désolé, nous n'avons pas pu détecter les informations de votre appareil.";
+            // Obtenir la résolution de l'écran
+            var screenWidth = screen.width;
+            var screenHeight = screen.height;
 
-            if (device.device && device.device.model) {
-                deviceInfo = `Vous utilisez un ${device.device.model} (${device.device.type})`;
-            } else if (device.device) {
-                deviceInfo = `Vous utilisez un appareil de type ${device.device.type}`;
-            }
+            // Afficher les informations dans la page
+            document.getElementById("deviceModel").textContent = deviceModel;
+            document.getElementById("os").textContent = os;
+            document.getElementById("deviceType").textContent = deviceType;
+            document.getElementById("screenWidth").textContent = screenWidth;
+            document.getElementById("screenHeight").textContent = screenHeight;
+        }
 
-            document.getElementById("device-info").innerText = deviceInfo;
-        } else {
-            document.getElementById("device-info").innerText = "Erreur de chargement de la bibliothèque.";
+        // Charger les informations du téléphone dès que la page est chargée
+        window.onload = function() {
+            getDeviceInfo();
         }
     </script>
 
