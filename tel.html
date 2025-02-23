@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détection d'appareil</title>
+    <title>Détection d'appareil mobile</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,11 +20,12 @@
     <p class="device-info" id="device-info">Chargement des informations de l'appareil...</p>
 
     <script>
-        // Fonction pour détecter le type d'appareil
+        // Fonction pour détecter le type d'appareil mobile
         function detectDevice() {
             var userAgent = navigator.userAgent.toLowerCase();
             var deviceInfo = "Votre appareil n'a pas pu être détecté.";
 
+            // Détection des téléphones et tablettes
             if (/iphone|ipod/.test(userAgent)) {
                 deviceInfo = "Vous utilisez un iPhone ou un iPod.";
             } else if (/android/.test(userAgent)) {
@@ -33,8 +34,6 @@
                 deviceInfo = "Vous utilisez un appareil Windows Phone.";
             } else if (/tablet|ipad|playbook/.test(userAgent)) {
                 deviceInfo = "Vous utilisez une tablette.";
-            } else if (/desktop|mac|win|linux/.test(userAgent)) {
-                deviceInfo = "Vous utilisez un ordinateur de bureau ou portable.";
             }
 
             return deviceInfo;
