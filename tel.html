@@ -19,28 +19,15 @@
     <h1>Bienvenue sur notre site</h1>
     <p class="device-info" id="device-info">Chargement des informations de l'appareil...</p>
 
-    <script>
-        // Fonction pour détecter le type d'appareil mobile
-        function detectDevice() {
-            var userAgent = navigator.userAgent.toLowerCase();
-            var deviceInfo = "Votre appareil n'a pas pu être détecté.";
+    <script src="https://cdn.jsdelivr.net/npm/device-detector-js@2.2.22/device-detector.min.js"></script>
+<script>
+    var detector = new DeviceDetector();
+    var userAgent = navigator.userAgent;
+    var device = detector.parse(userAgent);
+    
+    document.getElementById("device-info").innerText = 
+        `Vous utilisez un ${device.device.model} (${device.device.type})`;
+</script>
 
-            // Détection des téléphones et tablettes
-            if (/iphone|ipod/.test(userAgent)) {
-                deviceInfo = "Vous utilisez un iPhone ou un iPod.";
-            } else if (/android/.test(userAgent)) {
-                deviceInfo = "Vous utilisez un appareil Android.";
-            } else if (/windows phone/.test(userAgent)) {
-                deviceInfo = "Vous utilisez un appareil Windows Phone.";
-            } else if (/tablet|ipad|playbook/.test(userAgent)) {
-                deviceInfo = "Vous utilisez une tablette.";
-            }
-
-            return deviceInfo;
-        }
-
-        // Afficher le type d'appareil
-        document.getElementById("device-info").innerText = detectDevice();
-    </script>
 </body>
 </html>
