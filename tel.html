@@ -24,9 +24,6 @@
         <strong>Type de téléphone : </strong><span id="device-type"></span>
     </div>
     <div class="info">
-        <strong>Marque et modèle du téléphone : </strong><span id="device-brand-model"></span>
-    </div>
-    <div class="info">
         <strong>Version du téléphone : </strong><span id="device-version"></span>
     </div>
 
@@ -55,26 +52,9 @@
             }
         }
 
-        // Fonction pour obtenir la marque et le modèle du téléphone (via l'User-Agent)
-        function getDeviceBrandModel() {
-            const userAgent = navigator.userAgent.toLowerCase();
-
-            // Recherche des marques spécifiques dans le User-Agent
-            if (userAgent.indexOf("wiko") !== -1) {
-                return "Wiko - Modèle inconnu";
-            } else if (userAgent.indexOf("xiaomi") !== -1) {
-                return "Xiaomi - Modèle inconnu";
-            } else if (userAgent.indexOf("redmi") !== -1) {
-                return "Redmi - Modèle inconnu";
-            } else {
-                return "Marque inconnue";
-            }
-        }
-
         // Fonction pour afficher les informations
         function displayDeviceInfo() {
             document.getElementById('device-type').textContent = getDeviceType();
-            document.getElementById('device-brand-model').textContent = getDeviceBrandModel();
             document.getElementById('device-version').textContent = getDeviceVersion();
         }
 
