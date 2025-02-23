@@ -3,31 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Géolocalisation précise</title>
+    <title>Géolocalisation IP</title>
 </head>
 <body>
-    <h1>Géolocalisation par GPS</h1>
-    <div id="location">En attente de la géolocalisation...</div>
+    <h1>Géolocalisation par IP</h1>
+    <div id="location"></div>
 
     <script>
-        // Vérifier si la géolocalisation est disponible
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                // Récupérer la latitude et la longitude
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
+        // Utilisation de l'API ipinfo.io avec ton token
+        fetch('https://ipinfo.io/json?token=8595dfac266e8b')
+            .then(response => response.json())
+            .then(data => {
+                const location = data.loc;  // Coordonnées (latitude, longitude)
+                const city = data.city;
+                const country = data.country;
 
-                // Afficher les coordonnées
-                document.getElementById('location').innerHTML = 
-                    `Latitude : ${latitude}<br>Longitude : ${longitude}`;
-            }, function(error) {
-                // Afficher l'erreur si la géolocalisation échoue
-                document.getElementById('location').innerHTML = 
-                    `Erreur : ${error.message}`;
+                document.getElementById('location').innerHTML = `Tu es à ${city}, ${country}. Coordonnées : ${location}`;
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération de la position', error);
             });
-        } else {
-            document.getElementById('location').innerHTML = "La géolocalisation n'est pas supportée par ce navigateur.";
-        }
     </script>
 </body>
 </html>
