@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modèle de l'iPhone</title>
+    <title>Informations Téléphone</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,44 +16,31 @@
 </head>
 <body>
 
-    <h1>Modèle de votre iPhone</h1>
+    <h1>Informations sur votre téléphone</h1>
 
     <div id="info-container">
-        <div class="info"><strong>Modèle détecté :</strong> <span id="deviceModel"></span></div>
+        <div class="info"><strong>Système d'exploitation:</strong> <span id="os"></span></div>
+        <div class="info"><strong>Version de Safari:</strong> <span id="safariVersion"></span></div>
+        <div class="info"><strong>Type d'appareil:</strong> <span id="deviceType"></span></div>
     </div>
 
     <script>
-        function detectIphoneModel() {
-            // Récupérer la résolution de l'écran
-            var width = screen.width;
-            var height = screen.height;
-            var model = 'Modèle inconnu';
+        // Fonction pour obtenir les informations simplifiées
+        function getDeviceInfo() {
+            var userAgent = navigator.userAgent;
+            var os = userAgent.match(/OS (\d+_\d+_\d+)/) ? userAgent.match(/OS (\d+_\d+_\d+)/)[1] : "Inconnu";
+            var safariVersion = userAgent.match(/AppleWebKit\/([\d.]+)/) ? userAgent.match(/AppleWebKit\/([\d.]+)/)[1] : "Inconnu";
+            var deviceType = (userAgent.indexOf("iPhone") !== -1) ? "iPhone" : "Autre appareil mobile";
 
-            // Comparer la résolution de l'écran pour identifier le modèle
-            if (width === 1125 && height === 2436) {
-                model = 'iPhone 11 Pro';
-            } else if (width === 750 && height === 1334) {
-                model = 'iPhone 6, 6s, 7, 8';
-            } else if (width === 828 && height === 1792) {
-                model = 'iPhone XR';
-            } else if (width === 1242 && height === 2208) {
-                model = 'iPhone 6 Plus, 6s Plus, 7 Plus, 8 Plus';
-            } else if (width === 1170 && height === 2532) {
-                model = 'iPhone 12, 12 Pro';
-            } else if (width === 1284 && height === 2778) {
-                model = 'iPhone 12 Pro Max';
-            } else if (width === 1125 && height === 2436) {
-                model = 'iPhone 11 Pro';
-            }
-            // Ajouter d'autres conditions pour différents modèles si nécessaire
-
-            // Afficher le modèle détecté
-            document.getElementById("deviceModel").textContent = model;
+            // Afficher les informations dans la page
+            document.getElementById("os").textContent = "iOS " + os.replace(/_/g, ".");
+            document.getElementById("safariVersion").textContent = safariVersion;
+            document.getElementById("deviceType").textContent = deviceType;
         }
 
-        // Appeler la fonction pour détecter le modèle
+        // Charger les informations dès que la page est chargée
         window.onload = function() {
-            detectIphoneModel();
+            getDeviceInfo();
         }
     </script>
 
