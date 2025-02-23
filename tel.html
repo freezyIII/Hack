@@ -3,46 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informations Téléphone</title>
+    <title>Informations du Téléphone</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
         }
         .info {
-            margin-bottom: 10px;
+            background-color: #fff;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        h2 {
+            color: #333;
         }
     </style>
 </head>
 <body>
-
     <h1>Informations sur votre téléphone</h1>
-
-    <div id="info-container">
-        <div class="info"><strong>Système d'exploitation:</strong> <span id="os"></span></div>
-        <div class="info"><strong>Version de Safari:</strong> <span id="safariVersion"></span></div>
-        <div class="info"><strong>Type d'appareil:</strong> <span id="deviceType"></span></div>
+    <div class="info">
+        <h2>Type de téléphone : </h2>
+        <p id="device-type"></p>
+        <h2>Modèle du téléphone : </h2>
+        <p id="device-model"></p>
+        <h2>Version du téléphone : </h2>
+        <p id="device-version"></p>
     </div>
 
     <script>
-        // Fonction pour obtenir les informations simplifiées
-        function getDeviceInfo() {
-            var userAgent = navigator.userAgent;
-            var os = userAgent.match(/OS (\d+_\d+_\d+)/) ? userAgent.match(/OS (\d+_\d+_\d+)/)[1] : "Inconnu";
-            var safariVersion = userAgent.match(/AppleWebKit\/([\d.]+)/) ? userAgent.match(/AppleWebKit\/([\d.]+)/)[1] : "Inconnu";
-            var deviceType = (userAgent.indexOf("iPhone") !== -1) ? "iPhone" : "Autre appareil mobile";
-
-            // Afficher les informations dans la page
-            document.getElementById("os").textContent = "iOS " + os.replace(/_/g, ".");
-            document.getElementById("safariVersion").textContent = safariVersion;
-            document.getElementById("deviceType").textContent = deviceType;
+        // Fonction pour récupérer les informations du téléphone
+        function getPhoneInfo() {
+            const userAgent = navigator.userAgent;
+            
+            let deviceType = "Inconnu";
+            let deviceModel = "Inconnu";
+            let deviceVersion = "Inconnu";
+            
+            // Exemple de détection pour un iPhone
+            if (userAgent.includes("iPhone")) {
+                deviceType = "iPhone";
+                const match = userAgent.match(/iPhone OS (\d+)_/);
+                if (match) {
+                    deviceVersion = "iOS " + match[1];
+                }
+            } 
+            // Exemple pour Android
+            else if (userAgent.includes("Android")) {
+                deviceType = "Android";
+                const match = userAgent.match(/Android (\d+\.\d+)/);
+                if (match) {
+                    deviceVersion = "Android " + match[1];
+                }
+            }
+            
+            // Mise à jour des informations sur la page
+            document.getElementById("device-type").innerText = deviceType;
+            document.getElementById("device-model").innerText = deviceModel;
+            document.getElementById("device-version").innerText = deviceVersion;
         }
 
-        // Charger les informations dès que la page est chargée
-        window.onload = function() {
-            getDeviceInfo();
-        }
+        // Appel de la fonction pour afficher les informations
+        getPhoneInfo();
     </script>
-
 </body>
 </html>
