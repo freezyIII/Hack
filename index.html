@@ -3,14 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Géolocalisation IP</title>
+    <title>Géolocalisation et Informations du téléphone</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .info {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Géolocalisation par IP</h1>
-    <div id="location"></div>
+    <h1>Géolocalisation et Informations sur votre téléphone</h1>
+
+    <!-- Section de géolocalisation -->
+    <div class="info">
+        <strong>Géolocalisation :</strong> <span id="location">Chargement...</span>
+    </div>
+
+    <!-- Section d'informations sur le téléphone -->
+    <div class="info">
+        <strong>Type de téléphone :</strong> <span id="device-type">Chargement...</span>
+    </div>
+    <div class="info">
+        <strong>Version du téléphone :</strong> <span id="device-version">Chargement...</span>
+    </div>
 
     <script>
-        // Utilisation de l'API ipinfo.io avec ton token
+        // Utilisation de l'API ipinfo.io avec ton token pour obtenir la géolocalisation
         fetch('https://ipinfo.io/json?token=8595dfac266e8b')
             .then(response => response.json())
             .then(data => {
@@ -18,11 +42,45 @@
                 const city = data.city;
                 const country = data.country;
 
-                document.getElementById('location').innerHTML = `Tu es à ${city}, ${country}. Coordonnées : ${location}`;
+                document.getElementById('location').textContent = `Tu es à ${city}, ${country}. Coordonnées : ${location}`;
             })
             .catch(error => {
                 console.error('Erreur lors de la récupération de la position', error);
+                document.getElementById('location').textContent = 'Impossible de récupérer la géolocalisation';
             });
+
+        // Fonction pour obtenir le type de téléphone (iOS ou Android, basé sur l'User-Agent)
+        function getDeviceType() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            if (userAgent.indexOf("android") !== -1) {
+                return "Android";
+            } else if (userAgent.indexOf("iphone") !== -1 || userAgent.indexOf("ipad") !== -1) {
+                return "iOS";
+            } else {
+                return "Inconnu";
+            }
+        }
+
+        // Fonction pour obtenir la version du système d'exploitation (Android ou iOS)
+        function getDeviceVersion() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            if (userAgent.indexOf("android") !== -1) {
+                return "Android " + (userAgent.match(/android\s([0-9\.]*)/i) || [])[1] || "Inconnu";
+            } else if (userAgent.indexOf("iphone") !== -1 || userAgent.indexOf("ipad") !== -1) {
+                return "iOS " + (userAgent.match(/os\s([0-9_\.]*)/i) || [])[1].replace(/_/g, '.') || "Inconnu";
+            } else {
+                return "Inconnu";
+            }
+        }
+
+        // Fonction pour afficher les informations sur le téléphone
+        function displayDeviceInfo() {
+            document.getElementById('device-type').textContent = getDeviceType();
+            document.getElementById('device-version').textContent = getDeviceVersion();
+        }
+
+        // Appel de la fonction pour afficher les infos sur le téléphone dès le chargement de la page
+        displayDeviceInfo();
     </script>
 </body>
 </html>
