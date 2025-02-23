@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>Géolocalisation par GPS</h1>
-    <div id="location"></div>
+    <div id="location">En attente de la géolocalisation...</div>
 
     <script>
         // Vérifier si la géolocalisation est disponible
@@ -18,9 +18,12 @@
                 const longitude = position.coords.longitude;
 
                 // Afficher les coordonnées
-                document.getElementById('location').innerHTML = `Latitude : ${latitude}, Longitude : ${longitude}`;
+                document.getElementById('location').innerHTML = 
+                    `Latitude : ${latitude}<br>Longitude : ${longitude}`;
             }, function(error) {
-                document.getElementById('location').innerHTML = `Erreur : ${error.message}`;
+                // Afficher l'erreur si la géolocalisation échoue
+                document.getElementById('location').innerHTML = 
+                    `Erreur : ${error.message}`;
             });
         } else {
             document.getElementById('location').innerHTML = "La géolocalisation n'est pas supportée par ce navigateur.";
