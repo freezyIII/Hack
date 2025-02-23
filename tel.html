@@ -20,14 +20,22 @@
     <p class="device-info" id="device-info">Chargement des informations de l'appareil...</p>
 
     <script src="https://cdn.jsdelivr.net/npm/device-detector-js@2.2.22/device-detector.min.js"></script>
-<script>
-    var detector = new DeviceDetector();
-    var userAgent = navigator.userAgent;
-    var device = detector.parse(userAgent);
-    
-    document.getElementById("device-info").innerText = 
-        `Vous utilisez un ${device.device.model} (${device.device.type})`;
-</script>
+    <script>
+        var detector = new DeviceDetector();
+        var userAgent = navigator.userAgent;
+        var device = detector.parse(userAgent);
+
+        // Vérification de la disponibilité des informations sur le modèle et le type de l'appareil
+        var deviceInfo = "Désolé, nous n'avons pas pu détecter les informations de votre appareil.";
+
+        if (device.device && device.device.model) {
+            deviceInfo = `Vous utilisez un ${device.device.model} (${device.device.type})`;
+        } else if (device.device) {
+            deviceInfo = `Vous utilisez un appareil de type ${device.device.type}`;
+        }
+
+        document.getElementById("device-info").innerText = deviceInfo;
+    </script>
 
 </body>
 </html>
