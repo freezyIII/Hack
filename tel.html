@@ -3,82 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informations du Téléphone</title>
+    <title>Informations du téléphone</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
-            background-color: #f4f4f4;
         }
         .info {
-            background-color: #fff;
-            padding: 15px;
-            margin-top: 20px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
             border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        h2 {
-            color: #333;
         }
     </style>
 </head>
 <body>
     <h1>Informations sur votre téléphone</h1>
+
     <div class="info">
-        <h2>Type de téléphone : </h2>
-        <p id="device-type"></p>
-        <h2>Modèle du téléphone : </h2>
-        <p id="device-model"></p>
-        <h2>Version du téléphone : </h2>
-        <p id="device-version"></p>
+        <strong>Type de téléphone : </strong><span id="device-type"></span>
+    </div>
+    <div class="info">
+        <strong>Modèle du téléphone : </strong><span id="device-model"></span>
+    </div>
+    <div class="info">
+        <strong>Version du téléphone : </strong><span id="device-version"></span>
     </div>
 
     <script>
-        // Fonction pour récupérer les informations du téléphone
-        function getPhoneInfo() {
-            const userAgent = navigator.userAgent;
-            
-            let deviceType = "Inconnu";
-            let deviceModel = "Inconnu";
-            let deviceVersion = "Inconnu";
-            
-            // Détection du type de téléphone et version
-            if (userAgent.includes("iPhone")) {
-                deviceType = "iPhone";
-                const match = userAgent.match(/iPhone OS (\d+)_/);
-                if (match) {
-                    deviceVersion = "iOS " + match[1];
-                }
-                // Exemple de modèle basé sur le userAgent
-                if (userAgent.includes("iPhone 12")) {
-                    deviceModel = "iPhone 12";
-                } else if (userAgent.includes("iPhone 13")) {
-                    deviceModel = "iPhone 13";
-                }
-            } 
-            // Détection pour Android
-            else if (userAgent.includes("Android")) {
-                deviceType = "Android";
-                const match = userAgent.match(/Android (\d+\.\d+)/);
-                if (match) {
-                    deviceVersion = "Android " + match[1];
-                }
-                // Tentatives d'ajouter un modèle spécifique pour certains appareils Android
-                if (userAgent.includes("Pixel")) {
-                    deviceModel = "Google Pixel";
-                } else if (userAgent.includes("Samsung")) {
-                    deviceModel = "Samsung Galaxy";
-                }
+        // Fonction pour obtenir le type de téléphone (iOS ou Android, basé sur l'User-Agent)
+        function getDeviceType() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            if (userAgent.indexOf("android") !== -1) {
+                return "Android";
+            } else if (userAgent.indexOf("iphone") !== -1 || userAgent.indexOf("ipad") !== -1) {
+                return "iOS";
+            } else {
+                return "Inconnu";
             }
-
-            // Mise à jour des informations sur la page
-            document.getElementById("device-type").innerText = deviceType;
-            document.getElementById("device-model").innerText = deviceModel;
-            document.getElementById("device-version").innerText = deviceVersion;
         }
 
-        // Appel de la fonction pour afficher les informations
-        getPhoneInfo();
+        // Fonction pour obtenir la version du système d'exploitation (Android ou iOS)
+        function getDeviceVersion() {
+            const userAgent = navigator.userAgent.toLowerCase();
+            if (userAgent.indexOf("android") !== -1) {
+                return "Android " + (userAgent.match(/android\s([0-9\.]*)/i) || [])[1] || "Inconnu";
+            } else if (userAgent.indexOf("iphone") !== -1 || userAgent.indexOf("ipad") !== -1) {
+                return "iOS " + (userAgent.match(/os\s([0-9_\.]*)/i) || [])[1].replace(/_/g, '.') || "Inconnu";
+            } else {
+                return "Inconnu";
+            }
+        }
+
+        // Fonction pour afficher les informations
+        function displayDeviceInfo() {
+            document.getElementById('device-type').textContent = getDeviceType();
+            document.getElementById('device-model').textContent = navigator.platform || "Inconnu"; // Le modèle exact n'est pas accessible via JS
+            document.getElementById('device-version').textContent = getDeviceVersion();
+        }
+
+        // Appel de la fonction pour afficher les infos dès le chargement de la page
+        displayDeviceInfo();
     </script>
 </body>
 </html>
